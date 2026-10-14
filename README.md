@@ -21,7 +21,7 @@ Power BI, Power Query, DAX, Excel
 Star schema with **Orders** as the central table, linked one-to-many to
 **Customers**, **Product** and **Shipping** using shared keys.
 
-![Data Model](images/01-data-model.jpg)
+![Data Model](01-data-model.jpg)
 
 ## Data Transformation (Power Query)
 - Split "City, State and Postal Code" into separate columns
@@ -30,7 +30,7 @@ Star schema with **Orders** as the central table, linked one-to-many to
 - Merged Ship Code + Ship Reference Number to create a Shipping ID that
   matches the Orders table
 
-![Transformation](images/02-data-transformation.jpg)
+![Transformation](02-data-transformation.jpg)
 
 ## DAX
 - `Total Sales = SUM('Orders'[Sales])`
@@ -39,7 +39,7 @@ Star schema with **Orders** as the central table, linked one-to-many to
 - Calculated column `Delivery Timing New`: Early (<=10 days),
   On Time (11-20 days), Late (>20 days). Thresholds are my own assumption.
 
-![DAX](images/03-dax-measures.jpg)
+![DAX](03-dax-measures.jpg)
 
 ## Key Findings
 | Question | Answer |
@@ -59,13 +59,45 @@ Star schema with **Orders** as the central table, linked one-to-many to
 4. [Add your own, such as encouraging e-wallet payments.]
 
 ## Dashboard
-![Summary](images/04-dashboard-summary.jpg)
-![Overview](images/05-dashboard-overview.jpg)
-![Product](images/06-dashboard-product.jpg)
-![Logistics](images/07-dashboard-logistics.jpg)
+![Summary](04-dashboard-summary.jpg)
+![Overview](05-dashboard-overview.jpg)
+![Product](06-dashboard-product.jpg)
+![Logistics](07-dashboard-logistics.jpg)
 
 ## What I Learned
-[One or two sentences, e.g. data cleaning, key relationships, DAX.]
+
+**Data Transformation (Power Query)**
+- Used **Split Column by Delimiter** to separate a combined "City, State and
+  Postal Code" field into three columns, so the data could be filtered and
+  grouped by location.
+- Used **Remove Duplicates** on primary key columns (Customer ID, Product
+  Category ID) so each table has unique keys, which is required for a
+  one-to-many relationship.
+- **Merged two columns** (Ship Code and Ship Reference Number) to create a new
+  Shipping ID that matches the key in the Orders table.
+- Used **Column quality and Column distribution** to check for errors, empty
+  values and duplicate keys before loading the data.
+
+**Data Modelling**
+- Connected the Customers, Product and Shipping tables to the Orders table
+  using shared keys, forming a star schema.
+- Learned why clean, unique keys matter: a duplicate key on the "one" side
+  of a relationship breaks the model.
+
+**DAX Measures and Calculated Column**
+- Wrote basic measures: **Total Sales** and **Total Profit** using SUM, and
+  **Profit Margin** using DIVIDE, which avoids divide-by-zero errors.
+- Created a calculated column using **variables (VAR), IF and ISBLANK** to
+  classify each delivery as Early, On Time or Late based on the difference
+  between order date and delivered date, and to handle missing dates.
+- Learned the difference between a **measure** (calculated at query time and
+  responds to filters) and a **calculated column** (calculated per row).
+
+**Dashboard Design**
+- Structured the report around two audiences (Sales Manager and Operations
+  Manager) and the questions each one needs answered.
+- Added slicers (month, product category, courier) and navigation buttons
+  to make the report interactive.
 
 ## Contact
 [Danial Bin Azmy] | [www.linkedin.com/in/danial-azmy] | [Danial3034@gmail.com]
